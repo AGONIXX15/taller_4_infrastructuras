@@ -7,8 +7,6 @@ from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
 B = 500
 N = 5000
-matrix: list[list[int]] = [[rd.randint(0,1000) for _ in range(0,N)] for _ in range(0,N)]
-
 
 def timeit(fn, *args):
 
@@ -47,7 +45,7 @@ def sec(mat: list[list[int]]):
 _mat: list[list[int]] = []
 def init_worker(mat: list[list[int]]) -> None:
     global _mat
-    _mat = matrix
+    _mat = mat
 
 def worker(block: Block):
     return block.sum()
@@ -62,11 +60,13 @@ def generate_blocks(mat: list[list[int]], bs=B) -> list[Block]:
 def par(mat: list[list[int]], b: int, process: bool):
     blocks = generate_blocks(mat)
     Executor = ProcessPoolExecutor if process else ThreadPoolExecutor
-    with Executor(initializer=init_worker, initargs=(matrix,)) as pool:
+    with Executor(initializer=init_worker, initargs=(mat,)) as pool:
         return sum(pool.map(worker,blocks,chunksize=10))
 
 
 def main():
+    matrix: list[list[int]] = [[rd.randint(0,1000) for _ in range(0,N)] for _ in range(0,N)]
+    
     result_sec, time_sec = timeit(sec,matrix)
     result_par, time_par = timeit(par,matrix, B, True)
     result_par_th, time_par_th = timeit(par,matrix,B,False)
