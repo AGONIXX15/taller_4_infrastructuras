@@ -1,43 +1,34 @@
 import numpy as np
-import time
+
+SEED = 42
 
 
-
-matrix1 = np.random.randint(0,1000, size=(1000,1000))
-matrix2 = np.random.randint(0,1000, size=(1000,1000))
-
-
-def timeit(fn, *args):
-    start = time.perf_counter()
-    result = fn(*args)
-    end = time.perf_counter()
-    return (result,end-start)
-
-def smp(mat1: np.matrix, mat2: np.matrix):
+def smp(mat1: np.ndarray, mat2: np.ndarray):
     return mat1 @ mat2
 
 
-def sec(mat1: np.matrix, mat2: np.matrix):
-    n = 1_000    
-
-    mat3 = np.zeros((1000,1000))
+def sec(mat1: list[list[int]], mat2: list[list[int]]):
+    n = len(mat1)
+    m = len(mat2[0])
+    kk = len(mat2)
+    mat3 = [[0] * m for _ in range(n)]
     for i in range(n):
-        for j in range(n):
+        fila = mat1[i]
+        for j in range(m):
             acc = 0
-            for k in range(n):
-                acc +=  mat1[i,k] * mat2[k,j]
-            mat3[i,j] = acc
+            for k in range(kk):
+                acc += fila[k] * mat2[k][j]
+            mat3[i][j] = acc
     return mat3
 
-def main():
 
-    result_par, time_par = timeit(smp, matrix1, matrix2)
-    result_sec, time_sec = timeit(sec, matrix1, matrix2)
-
-    print(f"paralelo: {time_par : .4f}s")
-    print(f"secuencial: {time_sec : .4f}s")
-    print(f"mismo resultado: {np.array_equal(result_par,result_sec)}")
+def generate_matrices(n: int, seed=SEED):
+    rng = np.random.default_rng(seed)
+    a = rng.integers(0, 1000, size=(n, n), dtype=np.int64)
+    b = rng.integers(0, 1000, size=(n, n), dtype=np.int64)
+    return a, b
 
 
 if __name__ == '__main__':
-    main()
+    a, b = generate_matrices(50)
+    print(np.array_equal(np.array(sec(a.tolist(), b.tolist())), smp(a, b)))

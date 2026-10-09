@@ -1,18 +1,9 @@
-import numpy as np
-import random as rd
-import time
-import argparse
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
-B = 1000
-N = 10000
+import numpy as np
 
-def timeit(fn, *args):
+SEED = 42
 
-    start =  time.perf_counter()
-    ans = fn(*args)
-    end = time.perf_counter()
-    return (ans, end - start)
 
 class Block:
     __slots__ = ["r_start", "r_end", "c_start", "c_end"]
@@ -23,55 +14,61 @@ class Block:
         self.c_end = c_end
 
     def sum(self):
-       
-        result = _mat[self.r_start:self.r_end, self.c_start:self.c_end].sum()
-        print(result)
-        return result 
+        # int64 para que no desborde el int32
+        blk = _mat[self.r_start:self.r_end, self.c_start:self.c_end]
+        return int(blk.sum(axis=1, dtype=np.int64).sum())
 
 
-def sec(mat: list[list[int]]):
+def sec(mat: np.ndarray):
     result: int = 0
     for row in mat:
-        for column in row:
+        for column in row.tolist():
             result += column
-
-    print(result)
     return result
-            
 
-_mat: list[list[int]] = []
-def init_worker(mat: list[list[int]]) -> None:
+
+_mat: np.ndarray = None
+def init_worker(mat: np.ndarray) -> None:
     global _mat
     _mat = mat
 
 def worker(block: Block):
     return block.sum()
 
-def generate_blocks(mat: list[list[int]], bs=B) -> list[Block]:
-    n: int = len(mat)
-    m: int = len(mat[0])
+def worker_slice(trozo: np.ndarray):
+    return int(trozo.sum(axis=1, dtype=np.int64).sum())
+
+def sec_blocks(blocks):
+    return sum(b.sum() for b in blocks)
+
+
+def generate_matrix(n: int, seed=SEED) -> np.ndarray:
+    return np.random.default_rng(seed).integers(0, 1001, size=(n, n), dtype=np.int32)
+
+
+def generate_blocks(mat: np.ndarray, bs: int) -> list[Block]:
+    n, m = mat.shape
     return [Block(fi, min(fi + bs, n), ci, min(ci + bs, m))
-            for fi in range(0,n,bs) for ci in range(0,m,bs)]
+            for fi in range(0, n, bs) for ci in range(0, m, bs)]
 
 
-def par(mat: list[list[int]], b: int, process: bool):
-    blocks = generate_blocks(mat)
-    Executor = ProcessPoolExecutor if process else ThreadPoolExecutor
-    with Executor(initializer=init_worker, initargs=(mat,)) as pool:
-        return sum(pool.map(worker,blocks,chunksize=10))
+def crear_pool(process: bool, mat: np.ndarray, workers: int):
+    if process:
+        return ProcessPoolExecutor(max_workers=workers)
+    return ThreadPoolExecutor(max_workers=workers, initializer=init_worker, initargs=(mat,))
 
 
-def main():
-    matrix = np.random.randint(0,1000, size=(10000,10000))
-    
-    result_sec, time_sec = timeit(sec,matrix)
-    result_par, time_par = timeit(par,matrix, B, True)
-    result_par_th, time_par_th = timeit(par,matrix,B,False)
+def run(pool, blocks, workers):
+    chunk = max(1, len(blocks) // (workers * 4))
+    return sum(pool.map(worker, blocks, chunksize=chunk))
 
-    print(f"secuencial: {time_sec: .6f}s")
-    print(f"paralelo: { time_par : .6f}s")
-    print(f"paralelo con threads: {time_par_th : .6f}s")
-    print(f"resultado igual?: {result_sec == result_par_th}")
-    
+def run_procesos(pool, mat, blocks):
+    # cada bloque se copia contiguo y viaja como argumento (no mandamos la matriz entera)
+    trozos = [np.ascontiguousarray(mat[b.r_start:b.r_end, b.c_start:b.c_end]) for b in blocks]
+    return sum(pool.map(worker_slice, trozos))
+
+
 if __name__ == '__main__':
-    main()
+    m = generate_matrix(1000)
+    init_worker(m)
+    print(int(m.sum(dtype=np.int64)), sec_blocks(generate_blocks(m, 250)))

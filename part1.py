@@ -1,19 +1,8 @@
 import random as rd
-import time
-import argparse
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
+SEED = 42
 
-
-B = 500
-N = 5000
-
-def timeit(fn, *args):
-
-    start =  time.perf_counter()
-    ans = fn(*args)
-    end = time.perf_counter()
-    return (ans, end - start)
 
 class Block:
     __slots__ = ["r_start", "r_end", "c_start", "c_end"]
@@ -24,7 +13,6 @@ class Block:
         self.c_end = c_end
 
     def sum(self):
-        
         result = 0
         for r in range(self.r_start, self.r_end):
             row = _mat[r]
@@ -33,14 +21,13 @@ class Block:
         return result
 
 
-
 def sec(mat: list[list[int]]):
     result: int = 0
     for row in mat:
         for column in row:
             result += column
     return result
-            
+
 
 _mat: list[list[int]] = []
 def init_worker(mat: list[list[int]]) -> None:
@@ -50,33 +37,39 @@ def init_worker(mat: list[list[int]]) -> None:
 def worker(block: Block):
     return block.sum()
 
-def generate_blocks(mat: list[list[int]], bs=B) -> list[Block]:
+def sec_bloques(blocks: list) -> int:
+    return sum(b.sum() for b in blocks)
+
+
+def generate_matrix(n: int, seed=SEED) -> list[list[int]]:
+    rd.seed(seed)
+    return [[rd.randint(0, 1000) for _ in range(n)] for _ in range(n)]
+
+
+def generate_blocks(mat: list[list[int]], bs: int) -> list[Block]:
     n: int = len(mat)
     m: int = len(mat[0])
     return [Block(fi, min(fi + bs, n), ci, min(ci + bs, m))
-            for fi in range(0,n,bs) for ci in range(0,m,bs)]
+            for fi in range(0, n, bs) for ci in range(0, m, bs)]
 
 
-def par(mat: list[list[int]], b: int, process: bool):
-    blocks = generate_blocks(mat)
+def crear_pool(process: bool, mat, workers: int):
     Executor = ProcessPoolExecutor if process else ThreadPoolExecutor
-    with Executor(initializer=init_worker, initargs=(mat,)) as pool:
-        return sum(pool.map(worker,blocks,chunksize=10))
+    return Executor(max_workers=workers, initializer=init_worker, initargs=(mat,))
 
 
-def main():
-    matrix: list[list[int]] = [[rd.randint(0,1000) for _ in range(0,N)] for _ in range(0,N)]
-    
-    result_sec, time_sec = timeit(sec,matrix)
-    result_par, time_par = timeit(par,matrix, B, True)
-    result_par_th, time_par_th = timeit(par,matrix,B,False)
+def run(pool, blocks, workers):
+    chunk = max(1, len(blocks) // (workers * 4))
+    return sum(pool.map(worker, blocks, chunksize=chunk))
 
 
-    print(f"secuencial: {time_sec: .6f}s")
-    print(f"paralelo: { time_par : .6f}s")
-    print(f"paralelo con threads: {time_par_th : .6f}s")
-    print(f"resultado igual?: {result_sec == result_par == result_par_th}")
+def par(mat: list[list[int]], blocks: list, process: bool, workers: int):
+    # el pool se crea aqui, o sea que entra en el tiempo
+    with crear_pool(process, mat, workers) as pool:
+        return run(pool, blocks, workers)
+
+
 if __name__ == '__main__':
-    main()
-
-
+    m = generate_matrix(200)
+    init_worker(m)
+    print(sec(m), sec_bloques(generate_blocks(m, 50)), par(m, generate_blocks(m, 50), False, 2))

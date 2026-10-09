@@ -1,0 +1,440 @@
+[
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "secuencial",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "plano",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 1,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 1,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 2,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 2,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 4,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 4,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 8,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 8,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 12,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "threads",
+  "workers": 12,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 1,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 1,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 2,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 2,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 4,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 4,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 8,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 8,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 12,
+  "pool": "nuevo",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 100,
+  "modo": "procesos",
+  "workers": 12,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 50,
+  "modo": "secuencial",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 50,
+  "modo": "procesos",
+  "workers": 12,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 200,
+  "modo": "secuencial",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 200,
+  "modo": "procesos",
+  "workers": 12,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 500,
+  "modo": "secuencial",
+  "reps": 10
+ },
+ {
+  "parte": 1,
+  "n": 1000,
+  "bloque": 500,
+  "modo": "procesos",
+  "workers": 12,
+  "pool": "reutilizado",
+  "reps": 10
+ },
+ {
+  "parte": 2,
+  "n": 100,
+  "modo": "python",
+  "reps": 5,
+  "warmup": 1
+ },
+ {
+  "parte": 2,
+  "n": 100,
+  "modo": "numpy_int64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 100,
+  "modo": "numpy_float64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 200,
+  "modo": "python",
+  "reps": 5,
+  "warmup": 1
+ },
+ {
+  "parte": 2,
+  "n": 200,
+  "modo": "numpy_int64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 200,
+  "modo": "numpy_float64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 300,
+  "modo": "python",
+  "reps": 5,
+  "warmup": 1
+ },
+ {
+  "parte": 2,
+  "n": 300,
+  "modo": "numpy_int64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 300,
+  "modo": "numpy_float64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 500,
+  "modo": "python",
+  "reps": 5,
+  "warmup": 0
+ },
+ {
+  "parte": 2,
+  "n": 500,
+  "modo": "numpy_int64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 500,
+  "modo": "numpy_float64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 1000,
+  "modo": "python",
+  "reps": 3,
+  "warmup": 0
+ },
+ {
+  "parte": 2,
+  "n": 1000,
+  "modo": "numpy_int64",
+  "reps": 20
+ },
+ {
+  "parte": 2,
+  "n": 1000,
+  "modo": "numpy_float64",
+  "reps": 20
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "secuencial",
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "suma_directa",
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "python_estimado",
+  "reps": 3
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "threads",
+  "workers": 1,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "threads",
+  "workers": 2,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "threads",
+  "workers": 4,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "threads",
+  "workers": 8,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "threads",
+  "workers": 12,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "procesos",
+  "workers": 1,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "procesos",
+  "workers": 2,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "procesos",
+  "workers": 4,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "procesos",
+  "workers": 8,
+  "reps": 10
+ },
+ {
+  "parte": 3,
+  "n": 10000,
+  "bloque": 1000,
+  "modo": "procesos",
+  "workers": 12,
+  "reps": 10
+ }
+]
